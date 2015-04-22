@@ -88,7 +88,11 @@
 			}
 
 			try {
-				$this->image->smartResize( $dst_w, $dst_h, false );
+				if ($this->mime_type === 'image/gif') {
+					$this->image->scaleImage( $dst_w, $dst_h );
+				} else {
+					$this->image->smartResize( $dst_w, $dst_h, false );
+				}
 			}
 			catch ( Exception $e ) {
 				return new WP_Error( 'image_resize_error', $e->getMessage() );
@@ -197,7 +201,11 @@
 					if ( ! $dst_h )
 						$dst_h = $src_h;
 
-					$this->image->smartResize( $dst_w, $dst_h, false );
+					if ($this->mime_type === 'image/gif') {
+						$this->image->scaleImage( $dst_w, $dst_h );
+					} else {
+						$this->image->smartResize( $dst_w, $dst_h, false );
+					}
 					return $this->update_size();
 				}
 			}
